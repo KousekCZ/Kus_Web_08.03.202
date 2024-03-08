@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+    <h2>Users</h2>
+    <ul>
+    {% for user, data in users_db.items() %}
+        <li>{{ user }} {% if data['profile_image'] %}<img src="data:image/jpeg;base64,{{ data['profile_image'] }}" alt="Profile Image" width="50" height="50">{% endif %}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

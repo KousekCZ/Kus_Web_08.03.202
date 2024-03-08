@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+    <h2>Profile</h2>
+    <p>Welcome, {{ username }}!</p>
+    <form method="post">
+        <input type="password" name="new_password" placeholder="New Password"><br>
+        <button type="submit">Save Password</button>
+    </form>
+    <h3>Orders</h3>
+    <form method="post">
+        <input type="text" name="order_message" placeholder="Order Message" required><br>
+        <label><input type="checkbox" name="show_message"> Show to others</label><br>
+        <button type="submit">Send Order</button>
+    </form>
+    {% if orders_db %}
+        <ul>
+        {% for user, data in orders_db.items() %}
+            <li>{{ user }}: {{ data['message'] }} {% if data['show_message'] %}(Visible){% endif %}
+            <form method="post" style="display: inline;">
+                <button type="submit" name="cancel_order" value="{{ user }}">Cancel</button>
+            </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
+    <p><a href="/logout">Logout</a></p>
+    <h2>Users</h2>
+    <ul>
+    {% for user, data in users_db.items() %}
+        <li>{{ user }} {% if data['profile_image'] %}<img src="data:image/jpeg;base64,{{ data['profile_image'] }}" alt="Profile Image" width="50" height="50">{% endif %}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
