@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/admin.css">
     <title>Admin</title>
 </head>
 <body>
     <h2>Admin Panel</h2>
+    <h3>Users</h3>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
     <form method="post">
         <ul>
         {% for user in users_db %}
@@ -13,5 +18,24 @@
         {% endfor %}
         </ul>
     </form>
+    <h3>Orders</h3>
+    {% if orders_db %}
+        <ul>
+        {% for user, data in orders_db.items() %}
+            <li>{{ user }}: {{ data['message'] }} {% if data['show_message'] %}(Visible){% endif %}
+            <form method="post" style="display: inline;">
+                <button type="submit" name="delete_order" value="{{ user }}">Delete</button>
+            </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
+    <form method="post" action="/admin/change_password">
+        <input type="password" name="new_password" placeholder="New Password"><br>
+        <button type="submit">Save Password</button>
+    </form>
+    <p><a href="/logout">Logout</a></p>
 </body>
 </html>

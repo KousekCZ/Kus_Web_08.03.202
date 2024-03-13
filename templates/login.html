@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/login.css">
     <title>Login</title>
 </head>
 <body>
@@ -15,5 +16,23 @@
         <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="/register">Register</a></p>
+    <h2>Users</h2>
+    <ul>
+    {% for user, data in users_db.items() %}
+        <li>{{ user }} {% if data['profile_image'] %}<img src="data:image/jpeg;base64,{{ data['profile_image'] }}" alt="Profile Image" width="50" height="50">{% endif %}</li>
+    {% endfor %}
+    </ul>
+    <h3>Orders</h3>
+    {% if orders_db %}
+        <ul>
+        {% for user, data in orders_db.items() %}
+            {% if data.get('show_message', False) or user == username or session.get('admin', False) %}
+                <li>{{ user }}: {{ data['message'] }} {% if data['show_message'] %}(Visible){% endif %}</li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders yet.</p>
+    {% endif %}
 </body>
 </html>
